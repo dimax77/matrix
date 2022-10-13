@@ -7,17 +7,95 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "s21_matrix.h"
 
-START_TEST(create_matrix_test)
+START_TEST(s21_create_matrix_test)
 {
-
 int rows = 3;
 int cols = 4;
 matrix_t m;
 int res = s21_create_matrix(rows, cols, &m);
 printf("Res: %d\n", res);
 s21_remove_matrix(&m);
+ck_assert_int_eq(res, 0);
+
+}
+END_TEST
+
+START_TEST(s21_remove_matrix_test)
+{
+int rows = 2;
+int cols = 4;
+matrix_t m;
+int res = s21_create_matrix(rows, cols, &m);
+s21_remove_matrix(&m);
+ck_assert_int_eq(res, 0);
+
+}
+END_TEST
+
+START_TEST(s21_eq_matrix_test)
+{
+srand(time(NULL));
+int rows = 2;
+int cols = 4;
+matrix_t m, n;
+s21_create_matrix(rows, cols, &m);
+s21_create_matrix(rows, cols, &n);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+{m.matrix[i][j]=n.matrix[i][j]=1000000.0/rand();
+printf("%f\n", m.matrix[i][j]);}
+int res = s21_eq_matrix(&m, &n);
+ck_assert_int_eq(res, 1);
+m.matrix[1][3] = 0;
+res = s21_eq_matrix(&m, &n);
+ck_assert_int_eq(res, 0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&n);
+
+}
+END_TEST
+
+START_TEST(s21_sum_matrix_test)
+{
+int rows = 2;
+int cols = 4;
+matrix_t m, n, res;
+s21_create_matrix(rows, cols, &m);
+s21_create_matrix(rows, cols, &n);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+{n.matrix[i][j]=1.0;
+m.matrix[i][j]=2.0;}
+s21_sum_matrix(&m, &n, &res);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+ck_assert_double_eq(res.matrix[i][j], 3.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&n);
+s21_remove_matrix(&res);
+
+}
+END_TEST
+
+START_TEST(s21_mult_number_test)
+{
+int rows = 2;
+int cols = 4;
+matrix_t m, res;
+s21_create_matrix(rows, cols, &m);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+m.matrix[i][j]=2.0;
+s21_mult_number(&m, 3.0, &res);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+ck_assert_double_eq(res.matrix[i][j], 6.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&res);
+
 }
 END_TEST
 
@@ -29,7 +107,11 @@ int main(void)
     int nf;
 
     suite_add_tcase(s1, tc1_1);
-    tcase_add_test(tc1_1, create_matrix_test);
+    tcase_add_test(tc1_1, s21_create_matrix_test);
+    tcase_add_test(tc1_1, s21_remove_matrix_test);
+    tcase_add_test(tc1_1, s21_eq_matrix_test);
+    tcase_add_test(tc1_1, s21_sum_matrix_test);
+    tcase_add_test(tc1_1, s21_mult_number_test);
 
     srunner_set_fork_status(sr, CK_NOFORK);srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);

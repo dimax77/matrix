@@ -1,10 +1,14 @@
 #ifndef S21_MATRIX_H_
 #define S21_MATRIX_H
 typedef struct matrix_struct {
-    double** matrix;
-    int rows;
-    int columns;
+  double **matrix;
+  int rows;
+  int columns;
 } matrix_t;
+#define EPS 1e-07
+#define OK 0
+#define BAD_MATRIX 1
+#define BAD_RES 2
 int s21_create_matrix(int rows, int columns, matrix_t *result);
 void s21_remove_matrix(matrix_t *A);
 
