@@ -56,7 +56,7 @@ unit: $(TEST_NAME).check
 git: #make git CMT="commit"
 	git add Makefile $(PROJECT_NAME).h $(PROJECT_NAME).c $(TEST_NAME).c $(TEST_NAME).check s21_addons.c
 	git commit -m'$(CMT)'
-	git push origin beardles
+	git push
 
 clean:
 	rm -rf *.o *.a gcov_report *.gcno *.gcda ./report *.info *.html gcov_report $(TEST_NAME) valgrind_out.txt a.out
