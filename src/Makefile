@@ -5,7 +5,7 @@ CFLAGS=-std=c11 -Wall -Werror -Wextra -g
 GCOV_FLAGS=--coverage -lgcov
 TEST_NAME=$(PROJECT_NAME)_test
 GCOV_NAME=gcov_report
-SOURCES=$(PROJECT_NAME).c s21_addons.c
+SOURCES=$(PROJECT_NAME).c
 OBJECTS=$(SOURCES:.c=.o)
 
 ifeq ($(shell uname -s), Darwin)
