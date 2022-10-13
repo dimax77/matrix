@@ -54,7 +54,7 @@ unit: $(TEST_NAME).check
 	sed -i 's/srunner_run_all(sr, CK_ENV);/srunner_set_fork_status(sr, CK_NOFORK);srunner_run_all(sr, CK_NORMAL);/' $(TEST_NAME).c
 
 git: #make git CMT="commit"
-	git add Makefile $(PROJECT_NAME).h $(PROJECT_NAME).c $(TEST_NAME).c $(TEST_NAME).check s21_addons.c
+	git add Makefile $(PROJECT_NAME).h $(PROJECT_NAME).c $(TEST_NAME).c $(TEST_NAME).check ss21_matrix.h
 	git commit -m'$(CMT)'
 	git push
 
