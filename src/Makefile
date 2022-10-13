@@ -15,7 +15,7 @@ endif
 
 ifeq ($(shell uname -s), Linux)
 CHECK_FLAGS=-lcheck -pthread -lrt -lm -lsubunit
-MEM_CHECK=valgrind -s --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind_out.txt ./$(TEST_NAME)
+MEM_CHECK=valgrind -s --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_NAME)
 endif
 
 all: $(PROJECT_NAME).a test gcov_report

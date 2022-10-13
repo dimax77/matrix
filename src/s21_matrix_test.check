@@ -1,0 +1,12 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "s21_matrix.h"
+
+#test create_matrix_test
+
+int rows = 3;
+int cols = 4;
+matrix_t m;
+int res = s21_create_matrix(rows, cols, &m);
+printf("Res: %d\n", res);
+s21_remove_matrix(&m);
