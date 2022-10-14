@@ -3,108 +3,164 @@
  * Edit the original source file "s21_matrix_test.check" instead.
  */
 
+#include <check.h>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include "s21_matrix.h"
 
-#include <check.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+START_TEST(s21_create_matrix_test)
+{
+int rows = 3;
+int cols = 4;
+matrix_t m;
+int res = s21_create_matrix(rows, cols, &m);
+s21_remove_matrix(&m);
+ck_assert_int_eq(res, 0);
 
-START_TEST(s21_create_matrix_test) {
-  int rows = 3;
-  int cols = 4;
-  matrix_t m;
-  int res = s21_create_matrix(rows, cols, &m);
-  printf("Res: %d\n", res);
-  s21_remove_matrix(&m);
-  ck_assert_int_eq(res, 0);
 }
 END_TEST
 
-START_TEST(s21_remove_matrix_test) {
-  int rows = 2;
-  int cols = 4;
-  matrix_t m;
-  int res = s21_create_matrix(rows, cols, &m);
-  s21_remove_matrix(&m);
-  ck_assert_int_eq(res, 0);
+START_TEST(s21_remove_matrix_test)
+{
+int rows = 2;
+int cols = 4;
+matrix_t m;
+int res = s21_create_matrix(rows, cols, &m);
+s21_remove_matrix(&m);
+ck_assert_int_eq(res, 0);
+
 }
 END_TEST
 
-START_TEST(s21_eq_matrix_test) {
-  srand(time(NULL));
-  int rows = 2;
-  int cols = 4;
-  matrix_t m, n;
-  s21_create_matrix(rows, cols, &m);
-  s21_create_matrix(rows, cols, &n);
-  for (int i = 0; i < rows; i++)
-    for (int j = 0; j < cols; j++) {
-      m.matrix[i][j] = n.matrix[i][j] = 1000000.0 / rand();
-      printf("%f\n", m.matrix[i][j]);
-    }
-  int res = s21_eq_matrix(&m, &n);
-  ck_assert_int_eq(res, 1);
-  m.matrix[1][3] = 0;
-  res = s21_eq_matrix(&m, &n);
-  ck_assert_int_eq(res, 0);
-  s21_remove_matrix(&m);
-  s21_remove_matrix(&n);
+START_TEST(s21_eq_matrix_test)
+{
+srand(time(NULL));
+int rows = 2;
+int cols = 4;
+matrix_t m, n;
+s21_create_matrix(rows, cols, &m);
+s21_create_matrix(rows, cols, &n);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+{m.matrix[i][j]=n.matrix[i][j]=1000000.0/rand();}
+int res = s21_eq_matrix(&m, &n);
+ck_assert_int_eq(res, 1);
+m.matrix[1][3] = 0;
+res = s21_eq_matrix(&m, &n);
+ck_assert_int_eq(res, 0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&n);
+
 }
 END_TEST
 
-START_TEST(s21_sum_matrix_test) {
-  int rows = 2;
-  int cols = 4;
-  matrix_t m, n, res;
-  s21_create_matrix(rows, cols, &m);
-  s21_create_matrix(rows, cols, &n);
-  for (int i = 0; i < rows; i++)
-    for (int j = 0; j < cols; j++) {
-      n.matrix[i][j] = 1.0;
-      m.matrix[i][j] = 2.0;
-    }
-  s21_sum_matrix(&m, &n, &res);
-  for (int i = 0; i < rows; i++)
-    for (int j = 0; j < cols; j++) ck_assert_double_eq(res.matrix[i][j], 3.0);
-  s21_remove_matrix(&m);
-  s21_remove_matrix(&n);
-  s21_remove_matrix(&res);
+START_TEST(s21_sum_matrix_test)
+{
+int rows = 2;
+int cols = 4;
+matrix_t m, n, res;
+s21_create_matrix(rows, cols, &m);
+s21_create_matrix(rows, cols, &n);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+{n.matrix[i][j]=1.0;
+m.matrix[i][j]=2.0;}
+s21_sum_matrix(&m, &n, &res);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+ck_assert_double_eq(res.matrix[i][j], 3.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&n);
+s21_remove_matrix(&res);
+
 }
 END_TEST
 
-START_TEST(s21_mult_number_test) {
-  int rows = 2;
-  int cols = 4;
-  matrix_t m, res;
-  s21_create_matrix(rows, cols, &m);
-  for (int i = 0; i < rows; i++)
-    for (int j = 0; j < cols; j++) m.matrix[i][j] = 2.0;
-  s21_mult_number(&m, 3.0, &res);
-  for (int i = 0; i < rows; i++)
-    for (int j = 0; j < cols; j++) ck_assert_double_eq(res.matrix[i][j], 6.0);
-  s21_remove_matrix(&m);
-  s21_remove_matrix(&res);
+START_TEST(s21_mult_number_test)
+{
+int rows = 2;
+int cols = 4;
+matrix_t m, res;
+s21_create_matrix(rows, cols, &m);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+m.matrix[i][j]=2.0;
+s21_mult_number(&m, 3.0, &res);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+ck_assert_double_eq(res.matrix[i][j], 6.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&res);
+
 }
 END_TEST
 
-int main(void) {
-  Suite *s1 = suite_create("Core");
-  TCase *tc1_1 = tcase_create("Core");
-  SRunner *sr = srunner_create(s1);
-  int nf;
+START_TEST(s21_mult_matrix_test)
+{
+int rows = 3;
+int cols = 2;
+matrix_t m, n, res;
+s21_create_matrix(rows, cols, &m);
+s21_create_matrix(cols, rows, &n);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+m.matrix[i][j]=1+j*3.0+i;
+for(int i = 0; i < cols; i++)
+for(int j = 0; j < rows; j++)
+n.matrix[i][j] = j+2.0;
+n.matrix[0][0] = 1.0;
+n.matrix[0][1] = -1.0;
+n.matrix[0][2] = 1.0;
+print_matrix(&m);
+print_matrix(&n);
+s21_mult_matrix(&m, &n, &res);
+ck_assert_double_eq(res.matrix[1][1], 13.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&n);
+s21_remove_matrix(&res);
 
-  suite_add_tcase(s1, tc1_1);
-  tcase_add_test(tc1_1, s21_create_matrix_test);
-  tcase_add_test(tc1_1, s21_remove_matrix_test);
-  tcase_add_test(tc1_1, s21_eq_matrix_test);
-  tcase_add_test(tc1_1, s21_sum_matrix_test);
-  tcase_add_test(tc1_1, s21_mult_number_test);
+}
+END_TEST
 
-  srunner_set_fork_status(sr, CK_NOFORK);
-  srunner_run_all(sr, CK_NORMAL);
-  nf = srunner_ntests_failed(sr);
-  srunner_free(sr);
+START_TEST(s21_transpose_test)
+{
+int rows = 3;
+int cols = 2;
+matrix_t m, res;
+s21_create_matrix(rows, cols, &m);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+m.matrix[i][j]=1+j*3.0+i;
+s21_transpose(&m, &res);
+print_matrix(&m);
+print_matrix(&res);
+ck_assert_double_eq(res.matrix[1][1], 5.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&res);
+}
+END_TEST
 
-  return nf == 0 ? 0 : 1;
+int main(void)
+{
+    Suite *s1 = suite_create("Core");
+    TCase *tc1_1 = tcase_create("Core");
+    SRunner *sr = srunner_create(s1);
+    int nf;
+
+    suite_add_tcase(s1, tc1_1);
+    tcase_add_test(tc1_1, s21_create_matrix_test);
+    tcase_add_test(tc1_1, s21_remove_matrix_test);
+    tcase_add_test(tc1_1, s21_eq_matrix_test);
+    tcase_add_test(tc1_1, s21_sum_matrix_test);
+    tcase_add_test(tc1_1, s21_mult_number_test);
+    tcase_add_test(tc1_1, s21_mult_matrix_test);
+    tcase_add_test(tc1_1, s21_transpose_test);
+
+    srunner_set_fork_status(sr, CK_NOFORK);srunner_run_all(sr, CK_NORMAL);
+    nf = srunner_ntests_failed(sr);
+    srunner_free(sr);
+
+    return nf == 0 ? 0 : 1;
 }

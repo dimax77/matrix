@@ -8,7 +8,6 @@ int rows = 3;
 int cols = 4;
 matrix_t m;
 int res = s21_create_matrix(rows, cols, &m);
-printf("Res: %d\n", res);
 s21_remove_matrix(&m);
 ck_assert_int_eq(res, 0);
 
@@ -29,8 +28,7 @@ s21_create_matrix(rows, cols, &m);
 s21_create_matrix(rows, cols, &n);
 for(int i = 0; i < rows; i++)
 for(int j = 0; j < cols; j++)
-{m.matrix[i][j]=n.matrix[i][j]=1000000.0/rand();
-printf("%f\n", m.matrix[i][j]);}
+{m.matrix[i][j]=n.matrix[i][j]=1000000.0/rand();}
 int res = s21_eq_matrix(&m, &n);
 ck_assert_int_eq(res, 1);
 m.matrix[1][3] = 0;
@@ -72,3 +70,36 @@ ck_assert_double_eq(res.matrix[i][j], 6.0);
 s21_remove_matrix(&m);
 s21_remove_matrix(&res);
 
+#test s21_mult_matrix_test
+int rows = 3;
+int cols = 2;
+matrix_t m, n, res;
+s21_create_matrix(rows, cols, &m);
+s21_create_matrix(cols, rows, &n);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+m.matrix[i][j]=1+j*3.0+i;
+for(int i = 0; i < cols; i++)
+for(int j = 0; j < rows; j++)
+n.matrix[i][j] = j+2.0;
+n.matrix[0][0] = 1.0;
+n.matrix[0][1] = -1.0;
+n.matrix[0][2] = 1.0;
+s21_mult_matrix(&m, &n, &res);
+ck_assert_double_eq(res.matrix[1][1], 13.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&n);
+s21_remove_matrix(&res);
+
+#test s21_transpose_test
+int rows = 3;
+int cols = 2;
+matrix_t m, res;
+s21_create_matrix(rows, cols, &m);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+m.matrix[i][j]=1+j*3.0+i;
+s21_transpose(&m, &res);
+ck_assert_double_eq(res.matrix[1][1], 5.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&res);
