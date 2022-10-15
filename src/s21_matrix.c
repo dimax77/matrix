@@ -196,13 +196,13 @@ int s21_determinant(matrix_t *A, double *result) {
       *result += calc_minor(A, 0, j) * pow(-1, j) * A->matrix[0][j];
     }
   }
-  return 0;
+  return OK;
 }
 int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
   if (!A->matrix) return BAD_MATRIX;
   if (A->rows != A->columns) return BAD_MATRIX;
   double det = 0;
-  int status = 0;
+  int status = OK;
   s21_determinant(A, &det);
   if (det) {
     s21_calc_complements(A, result);
