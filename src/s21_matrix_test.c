@@ -63,9 +63,8 @@ START_TEST(s21_sum_matrix_test) {
       m.matrix[i][j] = 2.0;
     }
   s21_sum_matrix(&m, &n, &res);
-  // for(int i = 0; i < rows; i++)
-  // for(int j = 0; j < cols; j++)
-  // ck_assert_double_eq(res.matrix[i][j], 3.0);
+  for (int i = 0; i < rows; i++)
+    for (int j = 0; j < cols; j++) ck_assert_double_eq(res.matrix[i][j], 3.0);
   s21_remove_matrix(&m);
   s21_remove_matrix(&n);
   s21_remove_matrix(&res);
@@ -100,9 +99,8 @@ START_TEST(s21_mult_number_test) {
   for (int i = 0; i < rows; i++)
     for (int j = 0; j < cols; j++) m.matrix[i][j] = 2.0;
   s21_mult_number(&m, 3.0, &res);
-  // for(int i = 0; i < rows; i++)
-  // for(int j = 0; j < cols; j++)
-  // ck_assert_double_eq(res.matrix[i][j], 6.0);
+  for (int i = 0; i < rows; i++)
+    for (int j = 0; j < cols; j++) ck_assert_double_eq(res.matrix[i][j], 6.0);
   s21_remove_matrix(&m);
   s21_remove_matrix(&res);
 }
@@ -122,7 +120,7 @@ START_TEST(s21_mult_matrix_test) {
   n.matrix[0][1] = -1.0;
   n.matrix[0][2] = 1.0;
   s21_mult_matrix(&m, &n, &res);
-  // ck_assert_double_eq(res.matrix[1][1], 13.0);
+  ck_assert_double_eq(res.matrix[1][1], 13.0);
   s21_remove_matrix(&m);
   s21_remove_matrix(&n);
   s21_remove_matrix(&res);
@@ -137,7 +135,7 @@ START_TEST(s21_transpose_test) {
   for (int i = 0; i < rows; i++)
     for (int j = 0; j < cols; j++) m.matrix[i][j] = 1 + j * 3.0 + i;
   s21_transpose(&m, &res);
-  // ck_assert_double_eq(res.matrix[1][1], 5.0);
+  ck_assert_double_eq(res.matrix[1][1], 5.0);
   s21_remove_matrix(&m);
   s21_remove_matrix(&res);
 }
@@ -162,12 +160,12 @@ START_TEST(s21_determinant_test) {
   m.matrix[2][0] = 2;
   m.matrix[2][1] = 1;
   m.matrix[2][2] = 3;
-  print_matrix(&m);
+  // print_matrix(&m);
   double det = 0;
   s21_determinant(&m, &det);
   ck_assert_int_eq((int)det, 3);
   // ck_assert_double_eq(det, 0.0);
-  printf("det: %f\n", det);
+  // printf("det: %f\n", det);
   s21_remove_matrix(&m);
 }
 END_TEST
@@ -185,10 +183,10 @@ START_TEST(s21_calc_complements_test) {
   m.matrix[2][0] = 5;
   m.matrix[2][1] = 2;
   m.matrix[2][2] = 1;
-  print_matrix(&m);
+  // print_matrix(&m);
   s21_calc_complements(&m, &res);
-  // ck_assert_double_eq(det, 0.0);
-  print_matrix(&res);
+  ck_assert_double_eq(res.matrix[1][1], -14.0);
+  // print_matrix(&res);
   s21_remove_matrix(&m);
   s21_remove_matrix(&res);
 }
@@ -207,10 +205,10 @@ START_TEST(s21_inverse_matrix_test) {
   m.matrix[2][0] = 5;
   m.matrix[2][1] = -2;
   m.matrix[2][2] = -3;
-  print_matrix(&m);
+  // print_matrix(&m);
   s21_inverse_matrix(&m, &res);
-  // ck_assert_double_eq(det, 0.0);
-  print_matrix(&res);
+  ck_assert_double_eq(res.matrix[1][1], 41.0);
+  // print_matrix(&res);
   s21_remove_matrix(&m);
   s21_remove_matrix(&res);
 }
