@@ -113,8 +113,6 @@ n.matrix[i][j] = j+2.0;
 n.matrix[0][0] = 1.0;
 n.matrix[0][1] = -1.0;
 n.matrix[0][2] = 1.0;
-print_matrix(&m);
-print_matrix(&n);
 s21_mult_matrix(&m, &n, &res);
 ck_assert_double_eq(res.matrix[1][1], 13.0);
 s21_remove_matrix(&m);
@@ -134,11 +132,30 @@ for(int i = 0; i < rows; i++)
 for(int j = 0; j < cols; j++)
 m.matrix[i][j]=1+j*3.0+i;
 s21_transpose(&m, &res);
-print_matrix(&m);
-print_matrix(&res);
 ck_assert_double_eq(res.matrix[1][1], 5.0);
 s21_remove_matrix(&m);
 s21_remove_matrix(&res);
+
+}
+END_TEST
+
+START_TEST(s21_determinant_test)
+{
+int rows = 3;
+matrix_t m;
+int k = 1;
+s21_create_matrix(rows, rows, &m);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < rows; j++)
+{
+    m.matrix[i][j] = k;
+    k++;
+}
+print_matrix(&m);
+double det = 0;
+s21_determinant(&m, &det);
+printf("det: %f\n", det);
+s21_remove_matrix(&m);
 }
 END_TEST
 
@@ -157,6 +174,7 @@ int main(void)
     tcase_add_test(tc1_1, s21_mult_number_test);
     tcase_add_test(tc1_1, s21_mult_matrix_test);
     tcase_add_test(tc1_1, s21_transpose_test);
+    tcase_add_test(tc1_1, s21_determinant_test);
 
     srunner_set_fork_status(sr, CK_NOFORK);srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);

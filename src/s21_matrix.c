@@ -153,14 +153,14 @@ int s21_calc_complements(matrix_t *A, matrix_t *result) {
   if (result->matrix) {
     for (int i = 0; i < A->rows; i++)
       for (int j = 0; j < A->columns; j++) {
-        result->matrix[i][j] = calc_minor(&A, i, j) * (-1) ^ (i + j);
+        result->matrix[i][j] = calc_minor(A, i, j) * pow(-1, i + j);
       }
   } else {
     status = BAD_RES;
   }
   return status;
 }
-int calc_minor(matrix_t *A, int row, int col) {
+double calc_minor(matrix_t *A, int row, int col) {
   matrix_t new;
   s21_create_matrix(A->rows - 1, A->columns - 1, &new);
   if (new.matrix) {
@@ -172,4 +172,24 @@ int calc_minor(matrix_t *A, int row, int col) {
       }
     }
   }
+  double minor = 0.0;
+  s21_determinant(&new, &minor);
+  s21_remove_matrix(&new);
+  return minor;
+}
+int s21_determinant(matrix_t *A, double *result) {
+  if (!A->matrix) return BAD_MATRIX;
+  if (A->columns != A->rows) return BAD_MATRIX;
+  result = 0;
+  if (A->rows == 1)
+    *result = A->matrix[0][0];
+  else if (A->rows == 2)
+    *result =
+        A->matrix[0][0] * A->matrix[1][1] - A->matrix[0][1] * A->matrix[1][0];
+  else {
+    for (int j = 0; j < A->columns; j++) {
+      *result += calc_minor(A, 0, j) * pow(-1, 2 + j) * A->matrix[0][j];
+    }
+  }
+  return 0;
 }

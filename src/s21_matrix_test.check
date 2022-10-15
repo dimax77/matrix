@@ -103,3 +103,20 @@ s21_transpose(&m, &res);
 ck_assert_double_eq(res.matrix[1][1], 5.0);
 s21_remove_matrix(&m);
 s21_remove_matrix(&res);
+
+#test s21_determinant_test
+int rows = 3;
+matrix_t m;
+int k = 1;
+s21_create_matrix(rows, rows, &m);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < rows; j++)
+{
+    m.matrix[i][j] = k;
+    k++;
+}
+print_matrix(&m);
+double det = 0;
+s21_determinant(&m, &det);
+printf("det: %f\n", det);
+s21_remove_matrix(&m);
