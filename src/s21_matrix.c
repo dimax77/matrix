@@ -176,6 +176,7 @@ double calc_minor(matrix_t *A, int row, int col) {
       r = r + 1;
     }
   }
+  print_matrix(&new);
   double minor = 0.0;
   s21_determinant(&new, &minor);
   s21_remove_matrix(&new);
