@@ -164,12 +164,16 @@ double calc_minor(matrix_t *A, int row, int col) {
   matrix_t new;
   s21_create_matrix(A->rows - 1, A->columns - 1, &new);
   if (new.matrix) {
+    int r = 0;
+    int s = 0;
     for (int i = 0; i < A->rows; i++) {
       if (i == row) continue;
       for (int j = 0; j < A->columns; j++) {
         if (j == col) continue;
-        new.matrix[i][j] = A->matrix[i][j];
+        new.matrix[r][s] = A->matrix[i][j];
+        s = s + 1;
       }
+      r = r + 1;
     }
   }
   double minor = 0.0;
