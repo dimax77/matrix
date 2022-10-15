@@ -131,3 +131,43 @@ ck_assert_int_eq((int)det, 3);
 //ck_assert_double_eq(det, 0.0);
 printf("det: %f\n", det);
 s21_remove_matrix(&m);
+
+#test s21_calc_complements_test
+int rows = 3;
+matrix_t m, res;
+s21_create_matrix(rows, rows, &m);
+ m.matrix[0][0] = 1;
+ m.matrix[0][1] = 2;
+ m.matrix[0][2] = 3;
+ m.matrix[1][0] = 0;
+ m.matrix[1][1] = 4;
+ m.matrix[1][2] = 2;
+ m.matrix[2][0] = 5;
+ m.matrix[2][1] = 2;
+ m.matrix[2][2] = 1;
+print_matrix(&m);
+s21_calc_complements(&m, &res);
+//ck_assert_double_eq(det, 0.0);
+print_matrix(&res);
+s21_remove_matrix(&m);
+s21_remove_matrix(&res);
+
+#test s21_inverse_matrix_test
+int rows = 3;
+matrix_t m, res;
+s21_create_matrix(rows, rows, &m);
+ m.matrix[0][0] = 2;
+ m.matrix[0][1] = 5;
+ m.matrix[0][2] = 7;
+ m.matrix[1][0] = 6;
+ m.matrix[1][1] = 3;
+ m.matrix[1][2] = 4;
+ m.matrix[2][0] = 5;
+ m.matrix[2][1] = -2;
+ m.matrix[2][2] = -3;
+print_matrix(&m);
+s21_inverse_matrix(&m, &res);
+//ck_assert_double_eq(det, 0.0);
+print_matrix(&res);
+s21_remove_matrix(&m);
+s21_remove_matrix(&res);
