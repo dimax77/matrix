@@ -55,6 +55,24 @@ s21_remove_matrix(&m);
 s21_remove_matrix(&n);
 s21_remove_matrix(&res);
 
+#test s21_sub_matrix_test
+int rows = 2;
+int cols = 4;
+matrix_t m, n, res;
+s21_create_matrix(rows, cols, &m);
+s21_create_matrix(rows, cols, &n);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+{n.matrix[i][j]=1.0;
+m.matrix[i][j]=2.0;}
+s21_sub_matrix(&n, &m, &res);
+for(int i = 0; i < rows; i++)
+for(int j = 0; j < cols; j++)
+ck_assert_double_eq(res.matrix[i][j], -1.0);
+s21_remove_matrix(&m);
+s21_remove_matrix(&n);
+s21_remove_matrix(&res);
+
 #test s21_mult_number_test
 int rows = 2;
 int cols = 4;
