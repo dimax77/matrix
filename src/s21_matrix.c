@@ -180,7 +180,7 @@ double calc_minor(matrix_t *A, int row, int col) {
 int s21_determinant(matrix_t *A, double *result) {
   if (!A->matrix) return BAD_MATRIX;
   if (A->columns != A->rows) return BAD_MATRIX;
-  result = 0;
+  *result = 0;
   if (A->rows == 1)
     *result = A->matrix[0][0];
   else if (A->rows == 2)

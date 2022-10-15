@@ -154,6 +154,7 @@ for(int j = 0; j < rows; j++)
 print_matrix(&m);
 double det = 0;
 s21_determinant(&m, &det);
+ck_assert_double_eq(det, 0.0);
 printf("det: %f\n", det);
 s21_remove_matrix(&m);
 }
@@ -176,7 +177,7 @@ int main(void)
     tcase_add_test(tc1_1, s21_transpose_test);
     tcase_add_test(tc1_1, s21_determinant_test);
 
-    srunner_set_fork_status(sr, CK_NOFORK);srunner_run_all(sr, CK_NORMAL);
+    srunner_run_all(sr, CK_ENV);
     nf = srunner_ntests_failed(sr);
     srunner_free(sr);
 
