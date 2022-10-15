@@ -174,6 +174,7 @@ double calc_minor(matrix_t *A, int row, int col) {
         s = s + 1;
       }
       r = r + 1;
+      s = 0;
     }
   }
   print_matrix(&new);
