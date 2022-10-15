@@ -177,7 +177,6 @@ double calc_minor(matrix_t *A, int row, int col) {
       s = 0;
     }
   }
-  print_matrix(&new);
   double minor = 0.0;
   s21_determinant(&new, &minor);
   s21_remove_matrix(&new);
@@ -194,7 +193,7 @@ int s21_determinant(matrix_t *A, double *result) {
         A->matrix[0][0] * A->matrix[1][1] - A->matrix[0][1] * A->matrix[1][0];
   else {
     for (int j = 0; j < A->columns; j++) {
-      *result += calc_minor(A, 0, j) * pow(-1, 2 + j) * A->matrix[0][j];
+      *result += calc_minor(A, 0, j) * pow(-1, j) * A->matrix[0][j];
     }
   }
   return 0;

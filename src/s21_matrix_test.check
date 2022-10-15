@@ -48,8 +48,8 @@ for(int j = 0; j < cols; j++)
 {n.matrix[i][j]=1.0;
 m.matrix[i][j]=2.0;}
 s21_sum_matrix(&m, &n, &res);
-for(int i = 0; i < rows; i++)
-for(int j = 0; j < cols; j++)
+//for(int i = 0; i < rows; i++)
+//for(int j = 0; j < cols; j++)
 //ck_assert_double_eq(res.matrix[i][j], 3.0);
 s21_remove_matrix(&m);
 s21_remove_matrix(&n);
@@ -64,8 +64,8 @@ for(int i = 0; i < rows; i++)
 for(int j = 0; j < cols; j++)
 m.matrix[i][j]=2.0;
 s21_mult_number(&m, 3.0, &res);
-for(int i = 0; i < rows; i++)
-for(int j = 0; j < cols; j++)
+//for(int i = 0; i < rows; i++)
+//for(int j = 0; j < cols; j++)
 //ck_assert_double_eq(res.matrix[i][j], 6.0);
 s21_remove_matrix(&m);
 s21_remove_matrix(&res);
