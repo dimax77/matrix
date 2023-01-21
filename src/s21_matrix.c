@@ -30,6 +30,7 @@ void s21_remove_matrix(matrix_t *A) {
   if (A->matrix) {
     for (int i = 0; i < A->rows; i++) free(A->matrix[i]);
     free(A->matrix);
+    A->matrix = NULL;
   }
 }
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
@@ -199,19 +200,28 @@ int s21_determinant(matrix_t *A, double *result) {
   return OK;
 }
 int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
-  if (!A->matrix) return BAD_MATRIX;
-  if (A->rows != A->columns) return BAD_MATRIX;
-  double det = 0;
-  int status = OK;
-  s21_determinant(A, &det);
-  if (det) {
-    s21_calc_complements(A, result);
-    s21_remove_matrix(A);
-    s21_transpose(result, A);
-    s21_remove_matrix(result);
-    s21_mult_number(A, 1.0 / det, result);
-  } else {
-    status = BAD_RES;
+  int status = BAD_RES;
+  if (A) {
+    if (A->matrix) {
+      if (A->rows == A->columns) {
+        if (result) {
+          double det = 0;
+          matrix_t temp_complements, temp_transpose;
+          s21_determinant(A, &det);
+          if (det) {
+            if (s21_calc_complements(A, &temp_complements) == OK) {
+              if (s21_transpose(&temp_complements, &temp_transpose) == OK) {
+                if (s21_mult_number(&temp_transpose, 1.0 / det, result) == OK) {
+                  s21_remove_matrix(&temp_complements);
+                  s21_remove_matrix(&temp_transpose);
+                  status = OK;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
   return status;
 }
